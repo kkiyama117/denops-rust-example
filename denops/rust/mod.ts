@@ -11,7 +11,6 @@ start(async (vim) => {
     vim.register({
         // async echo(_: unknown): Promise<unknown> {
         async echo(_: unknown): Promise<void> {
-            await delay(1000);
             return await pkg.greet2();
         },
     });

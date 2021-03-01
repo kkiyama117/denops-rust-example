@@ -32,6 +32,7 @@ macro_rules! console_error {
 }
 
 #[wasm_bindgen]
+#[no_mangle]
 extern {
     type Vim;
     static vim: Vim;
@@ -41,7 +42,7 @@ extern {
     #[wasm_bindgen(js_namespace = console, js_name = error)]
     fn log_error(s: &str);
     // #[wasm_bindgen(js_namespace = global, js_name = sleep, catch)]
-    #[wasm_bindgen(js_namespace = Deno, js_name = delay, catch)]
+    #[wasm_bindgen(js_name = delay, catch)]
     async fn sleep(m_sec: JsValue) -> Result<(), JsValue>;
 }
 
@@ -60,6 +61,6 @@ pub async fn greet2() -> JsValue {
     //     Err(_) => {console_error!("Error!")}
     // };
     // console_log!("Timer!");
-    sleep(JsValue::from(1000));
+    sleep(JsValue::from(1000)).await;
     JsValue::from_str(&format!("{}", "Hello, denops-rust!"))
 }
