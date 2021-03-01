@@ -1,5 +1,6 @@
 // Import 'start' function from denops_std
 import { start } from "https://deno.land/x/denops_std@v0.3/mod.ts";
+import { sleep } from "https://deno.land/x/sleep/mod.ts";
 import * as pkg from '../../pkg/index.js'
 
 // Call 'start' with async callback. The callback get 'vim' instance.
@@ -9,13 +10,13 @@ start(async (vim) => {
 
     vim.register({
         async echo(_: unknown): Promise<unknown> {
-            // async echo(text: unknown): Promise<unknown> {
-            const text=pkg.greet();
+            const text = "OK!";
 
             if (typeof text !== "string") {
                 throw new Error(`'text' in 'echo()' of ${vim.name} must be a string`);
             }
             console.log(text);
+            await pkg.greet();
             return await Promise.resolve(text);
         },
     });
