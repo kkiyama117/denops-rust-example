@@ -43,4 +43,5 @@ See each licence also. ([`LICENSE_MIT`](https://github.com/kkiyama117/denops-rus
 
 */
 #[cfg(target_arch = "wasm32")]
+#[macro_use]
 pub(crate) mod wasm;

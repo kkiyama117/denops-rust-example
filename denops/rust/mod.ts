@@ -7,17 +7,20 @@ import * as pkg from '../../pkg/index.js'
 start(async (vim) => {
     // Initialize (loading wasm)
     await pkg.default();
+    pkg.initialize();
 
     vim.register({
         // async echo(_: unknown): Promise<unknown> {
         async echo(_: unknown): Promise<void> {
-            return await pkg.greet2();
+            const test= await pkg.vim_test(vim);
+            console.log("g:denops_helloworld", await vim.g.get("denops_helloworld"));
         },
     });
 
     // Use 'vim.execute()' to execute Vim script
     await vim.execute(`
-    command! DenopsRustEcho echo denops#request("${vim.name}", "echo", [""])
+      command! DenopsRustEcho echo denops#request("${vim.name}", "echo", [""])
+      let g:denops_helloworld = "Global Hello Denops"
   `);
 
     console.log("denops-rust.vim has loaded");
