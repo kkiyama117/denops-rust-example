@@ -1,27 +1,30 @@
 [package]
-name        = "denops-rust"
-version     = "0.1.0"
-authors     = ["kkiyama117 <k.kiyama117@gmail.com>"]
-edition     = "2018"
-categories  = ["parser-implementations", "parsing"]
+name = "denops-rust"
+version = "0.1.0"
+authors = ["kkiyama117 <k.kiyama117@gmail.com>"]
+edition = "2018"
+categories = ["parser-implementations", "parsing"]
 description = "Sample of denops plugin implemented by rust"
-homepage    = "https://github.com/kkiyama117/denops-rust-example"
-keywords    = ["vim", "deno", "denops"]
-license     = "MIT"
-repository  = "https://github.com/kkiyama117/denops-rust-example"
-
+homepage = "https://github.com/kkiyama117/denops-rust-example"
+keywords = ["vim", "deno", "denops"]
+license = "MIT"
+repository = "https://github.com/kkiyama117/denops-rust-example"
 
 [lib]
 crate-type = ["cdylib", "rlib"]
 
 [features]
-# default = [""]
+default = ["full"]
+minimal-wasm= ["wee_alloc"]
+full = []
 
 [dependencies]
 
 [target.'cfg(target_arch = "wasm32")'.dependencies]
 # wasm-bindgen = { version = "0.2.63", features = ["serde-serialize"] }
 wasm-bindgen = "0.2.63"
+wasm-bindgen-futures = "0.4.21"
+js-sys = "0.3.48"
 
 # The `console_error_panic_hook` crate provides better debugging of panics by
 # logging them with `console.error`. This is great for development, but requires
@@ -41,6 +44,6 @@ wasm-bindgen-test = "0.3.21"
 
 [profile.release]
 # Tell `rustc` to optimize for small code size.
-opt-level     = "s"
+opt-level = "s"
 codegen-units = 1
-lto           = true
+lto = true

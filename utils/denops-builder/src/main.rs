@@ -10,14 +10,19 @@ fn main() {
 }
 
 fn denops_build(base_dir: &PathBuf, out_file: &str) {
-    Command::new("wasm-pack")
-        .args(&["build", "--target", "web", "--out-name", out_file])
-        .output()
-        .ok();
-    let result = Command::new("sed")
-        .args(&["-i", "-e", "s#input = fetch(input);#if (typeof Deno !== 'undefined') input = new WebAssembly.Module(await Deno.readFile(new URL(input).pathname));#",])
-        .arg( &base_dir.join("pkg").join(out_file.to_owned()+".js"))
+    let result =
+        Command::new("wasm-pack")
+            .args(&["build", "--target", "web", "--out-name", out_file])
+            .output()
+            .expect("failed to build by wasm-pack");
+    let result = String::from_utf8(result.stderr).unwrap();
+    println!("{}", result);
+    let result2 =
+    Command::new("sed")
+        .args(&["-i", "-e", "s#input = fetch(input);#if (typeof Deno !== 'undefined') input = new WebAssembly.Module(await Deno.readFile(new URL(input).pathname));#", ])
+        .arg(&base_dir.join("pkg").join(out_file.to_owned() + ".js"))
         .output()
         .expect("failed to run sed");
-    println!("{:?}", result);
+    let result2 = String::from_utf8(result2.stderr).unwrap();
+    println!("{}", result2);
 }
