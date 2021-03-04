@@ -23,5 +23,5 @@ start(async (vim) => {
       let g:denops_helloworld = "Global Hello Denops"
   `);
 
-    console.log("denops-rust.vim has loaded");
+    console.log("denops-rust-example.vim has loaded");
 });

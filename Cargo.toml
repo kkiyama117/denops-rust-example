@@ -1,30 +1,30 @@
 [package]
-name = "denops-rust"
-version = "0.1.0"
+name = "denops-rust-example"
+version = "0.3.1"
 authors = ["kkiyama117 <k.kiyama117@gmail.com>"]
 edition = "2018"
 categories = ["parser-implementations", "parsing"]
 description = "Sample of denops plugin implemented by rust"
 homepage = "https://github.com/kkiyama117/denops-rust-example"
 keywords = ["vim", "deno", "denops"]
-license = "MIT"
+license = "MIT/Apache-2.0"
 repository = "https://github.com/kkiyama117/denops-rust-example"
 
 [lib]
 crate-type = ["cdylib", "rlib"]
 
-[features]
-default = ["full"]
-minimal-wasm= ["wee_alloc"]
-full = []
+
 
 [dependencies]
 
 [target.'cfg(target_arch = "wasm32")'.dependencies]
-# wasm-bindgen = { version = "0.2.63", features = ["serde-serialize"] }
+
 wasm-bindgen = "0.2.63"
 wasm-bindgen-futures = "0.4.21"
 js-sys = "0.3.48"
+#denops-rust = { version = "0.1.1", path = "../../../tools/denops-rust/denops-rust" }
+denops-rust = { version = "0.1.1", feature =["full"] }
+
 
 # The `console_error_panic_hook` crate provides better debugging of panics by
 # logging them with `console.error`. This is great for development, but requires
@@ -32,12 +32,6 @@ js-sys = "0.3.48"
 # code size when deploying.
 console_error_panic_hook = { version = "0.1.6" }
 
-# `wee_alloc` is a tiny allocator for wasm that is only ~1K in code size
-# compared to the default allocator's ~10K. It is slower than the default
-# allocator, however.
-#
-# Unfortunately, `wee_alloc` requires nightly Rust when targeting wasm for now.
-wee_alloc = { version = "0.4.5", optional = true }
 
 [dev-dependencies]
 wasm-bindgen-test = "0.3.21"

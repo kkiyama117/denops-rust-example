@@ -42,6 +42,30 @@ See each licence also. ([`LICENSE_MIT`](https://github.com/kkiyama117/denops-rus
 - https://github.com/rustwasm/wasm-pack/issues/672
 
 */
-#[cfg(target_arch = "wasm32")]
-#[macro_use]
-pub(crate) mod wasm;
+use wasm_bindgen::prelude::*;
+use denops_rust::std::*;
+
+#[wasm_bindgen(start)]
+pub fn initialize() -> Result<(), JsValue> {
+    // When the `console_error_panic_hook` feature is enabled, we can call the
+    // `set_panic_hook` function at least once during initialization, and then
+    // we will get better error messages if our code ever panics.
+    //
+    // For more details see
+    // https://github.com/rustwasm/console_error_panic_hook#readme
+    #[cfg(debug_assertions)]
+        console_error_panic_hook::set_once();
+
+    Ok(())
+}
+
+#[wasm_bindgen]
+pub async fn greet2() -> JsValue {
+    JsValue::from_str(&format!("{}", "Hello, denops-rust-example!"))
+}
+
+#[wasm_bindgen]
+pub async fn vim_test(test: Vim) -> Vim {
+    // console::log(JsValue::from(&test));
+    test
+}
