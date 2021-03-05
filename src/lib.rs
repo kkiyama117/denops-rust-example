@@ -60,13 +60,13 @@ pub fn initialize() -> Result<(), JsValue> {
 
 #[wasm_bindgen]
 pub async fn vim_test(test: Vim) -> JsValue {
-    console::log("You can get variables and return it!");
+    console::log(JsValue::from("You can get variables and return it!"));
     test.g().get("denops_helloworld").await.unwrap()
 }
 
 #[wasm_bindgen]
 pub async fn vim_test2(test: Vim) {
-    console::log("Call asynchronous function");
+    console::log(JsValue::from("Call asynchronous function"));
     console::log(test.g().get("denops_helloworld").await.unwrap());
-    console::log("Call asynchronous function finished!");
+    console::log(JsValue::from("Call asynchronous function finished!"));
 }
