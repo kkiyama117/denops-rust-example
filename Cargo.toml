@@ -13,18 +13,13 @@ repository = "https://github.com/kkiyama117/denops-rust-example"
 [lib]
 crate-type = ["cdylib", "rlib"]
 
-
-
 [dependencies]
 
 [target.'cfg(target_arch = "wasm32")'.dependencies]
-
-wasm-bindgen = "0.2.63"
+wasm-bindgen = "0.2.71"
 wasm-bindgen-futures = "0.4.21"
 js-sys = "0.3.48"
-#denops-rust = { version = "0.1.1", path = "../../../tools/denops-rust/denops-rust" }
-denops-rust = { version = "0.1.1", feature =["full"] }
-
+denops-rust = { version = "0.2.1" }
 
 # The `console_error_panic_hook` crate provides better debugging of panics by
 # logging them with `console.error`. This is great for development, but requires
@@ -32,11 +27,16 @@ denops-rust = { version = "0.1.1", feature =["full"] }
 # code size when deploying.
 console_error_panic_hook = { version = "0.1.6" }
 
-
 [dev-dependencies]
 wasm-bindgen-test = "0.3.21"
 
 [profile.release]
+# Tell `rustc` to optimize for small code size.
+opt-level = "s"
+codegen-units = 1
+lto = true
+
+[profile.bench]
 # Tell `rustc` to optimize for small code size.
 opt-level = "s"
 codegen-units = 1

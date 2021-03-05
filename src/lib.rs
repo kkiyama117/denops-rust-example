@@ -43,7 +43,7 @@ See each licence also. ([`LICENSE_MIT`](https://github.com/kkiyama117/denops-rus
 
 */
 use wasm_bindgen::prelude::*;
-use denops_rust::std::*;
+use denops_rust::*;
 
 #[wasm_bindgen(start)]
 pub fn initialize() -> Result<(), JsValue> {
@@ -55,17 +55,18 @@ pub fn initialize() -> Result<(), JsValue> {
     // https://github.com/rustwasm/console_error_panic_hook#readme
     #[cfg(debug_assertions)]
         console_error_panic_hook::set_once();
-
     Ok(())
 }
 
 #[wasm_bindgen]
-pub async fn greet2() -> JsValue {
-    JsValue::from_str(&format!("{}", "Hello, denops-rust-example!"))
+pub async fn vim_test(test: Vim) -> JsValue {
+    console::log("You can get variables and return it!");
+    test.g().get("denops_helloworld").await.unwrap()
 }
 
 #[wasm_bindgen]
-pub async fn vim_test(test: Vim) -> Vim {
-    // console::log(JsValue::from(&test));
-    test
+pub async fn vim_test2(test: Vim) {
+    console::log("Call asynchronous function");
+    console::log(test.g().get("denops_helloworld").await.unwrap());
+    console::log("Call asynchronous function finished!");
 }
