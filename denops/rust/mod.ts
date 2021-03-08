@@ -10,16 +10,20 @@ start(async (vim) => {
 
     vim.register({
         // async echo(_: unknown): Promise<unknown> {
-        async echo(_: unknown): Promise<void> {
+        async test1(_: unknown): Promise<void> {
             const test = await pkg.vim_test(vim);
-            await pkg.vim_test2(vim);
             console.log(test);
+        },
+        // async echo(_: unknown): Promise<unknown> {
+        async test2(_: unknown): Promise<void> {
+            await pkg.vim_test2(vim);
         },
     });
 
     // Use 'vim.execute()' to execute Vim script
     await vim.execute(`
-      command! DenopsRustEcho echo denops#request("${vim.name}", "echo", [""])
+      command! DenopsRustTest1 echo denops#request("${vim.name}", "test1", [""])
+      command! DenopsRustTest2 echo denops#request("${vim.name}", "test2", [""])
       let g:denops_helloworld = "Global Hello Denops"
   `);
 
