@@ -9,12 +9,10 @@ start(async (vim) => {
     pkg.initialize();
 
     vim.register({
-        // async echo(_: unknown): Promise<unknown> {
         async test1(_: unknown): Promise<void> {
             const test = await pkg.vim_test(vim);
             console.log(test);
         },
-        // async echo(_: unknown): Promise<unknown> {
         async test2(_: unknown): Promise<void> {
             await pkg.vim_test2(vim);
         },
