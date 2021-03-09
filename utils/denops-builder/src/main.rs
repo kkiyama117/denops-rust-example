@@ -1,3 +1,5 @@
+use duct::cmd;
+use duct_sh::sh;
 use std::{env, path::PathBuf, process::Command};
 
 fn main() {
@@ -9,20 +11,22 @@ fn main() {
     denops_build(&path, &out_file);
 }
 
-fn denops_build(base_dir: &PathBuf, out_file: &str) {
-    let result =
-        Command::new("wasm-pack")
-            .args(&["build", "--target", "web", "--out-name", out_file])
-            .output()
-            .expect("failed to build by wasm-pack");
-    let result = String::from_utf8(result.stderr).unwrap();
-    println!("{}", result);
-    let result2 =
-    Command::new("sed")
-        .args(&["-i", "-e", "s#input = fetch(input);#if (typeof Deno !== 'undefined') input = new WebAssembly.Module(await Deno.readFile(new URL(input).pathname));#", ])
-        .arg(&base_dir.join("pkg").join(out_file.to_owned() + ".js"))
-        .output()
-        .expect("failed to run sed");
-    let result2 = String::from_utf8(result2.stderr).unwrap();
-    println!("{}", result2);
+fn denops_build(base_dir: &PathBuf, out_file: &str) -> anyhow::Result<()> {
+    cmd!(
+        "wasm-pack",
+        "build",
+        "--target",
+        "web",
+        "--out-name",
+        out_file
+    )
+    .read()?;
+    cmd!(
+        "sed",
+        "-i",
+        "-e",
+        "s#input = fetch(input);#if (typeof Deno !== 'undefined') input = new WebAssembly.Module(await Deno.readFile(new URL(input).pathname));#",
+        &base_dir.join("pkg").join(out_file.to_owned() + ".js"))
+    .read()?;
+    Ok(())
 }

@@ -7,5 +7,7 @@ version = "0.1.0"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-# cargo      = "0.45.0"
+anyhow = "1.0"
+duct = "0.13.5"
+duct_sh = "0.13.5"
 getopts = "0.2"

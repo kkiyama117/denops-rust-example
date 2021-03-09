@@ -20,12 +20,7 @@ wasm-bindgen = "0.2.71"
 wasm-bindgen-futures = "0.4.21"
 js-sys = "0.3.48"
 denops-rust = { version = "0.2.1" }
-
-[target.'cfg(target_arch = "wasm32")'.dependencies.web-sys]
-version = "0.3.4"
-features = [
-    'Response',
-]
+web-sys = {version="0.3.4",features=[ 'Response', ]}
 
 # The `console_error_panic_hook` crate provides better debugging of panics by
 # logging them with `console.error`. This is great for development, but requires
