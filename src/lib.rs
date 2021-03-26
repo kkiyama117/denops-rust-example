@@ -45,7 +45,7 @@ See each licence also. ([`LICENSE_MIT`](https://github.com/kkiyama117/denops-rus
 use wasm_bindgen::prelude::*;
 use wasm_bindgen_futures::JsFuture;
 use web_sys::{Response};
-use denops_rust::*;
+use denops_rust::{console_log, Vim};
 
 #[wasm_bindgen(start)]
 pub fn initialize() -> Result<(), JsValue> {
@@ -61,9 +61,9 @@ pub fn initialize() -> Result<(), JsValue> {
 }
 
 #[wasm_bindgen]
-pub async fn vim_test(vim : Vim) -> JsValue {
+pub async fn vim_test(vim: Vim) -> JsValue {
     // Use `console::log` (defined at denops_rust) to call `echo` in code written by rust!
-    console::log(JsValue::from("You can get variables and return it!"));
+    console_log!("You can get variables and return it!");
     // You can use (return) JsValue from function!
     vim.g().get("denops_helloworld").await.unwrap()
 }
@@ -71,8 +71,9 @@ pub async fn vim_test(vim : Vim) -> JsValue {
 #[wasm_bindgen]
 pub async fn vim_test2(_vim: Vim) {
     // Can call and wait deno's asynchronous function here!
-    console::log(run("https://api.github.com/repos/kkiyama117/denops-rust-example").await.unwrap());
-    console::log(JsValue::from("Call asynchronous function finished!"));
+    let data = call_js_fetch("https://api.github.com/repos/kkiyama117/denops-rust-example").await.unwrap();
+    console_log!("{:?}",data);
+    console_log!("Call asynchronous function finished!");
 }
 
 #[wasm_bindgen]
@@ -83,11 +84,10 @@ extern "C" {
 }
 
 // demo async function to call bind func
-async fn run(url: &str) -> Result<JsValue, JsValue> {
+async fn call_js_fetch(url: &str) -> Result<JsValue, JsValue> {
     let resp_value = js_fetch(url).await?;
-    let resp:Response = resp_value.into();
+    let resp: Response = resp_value.into();
     let json = JsFuture::from(resp.json()?).await?;
-    // let json = JsFuture::from(resp.json()?).await?;
 
     Ok(json)
 }

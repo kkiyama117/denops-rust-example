@@ -19,7 +19,7 @@ crate-type = ["cdylib", "rlib"]
 wasm-bindgen = "0.2.71"
 wasm-bindgen-futures = "0.4.21"
 js-sys = "0.3.48"
-denops-rust = { version = "0.2.1" }
+denops-rust = { version = "0.2.2" }
 
 [target.'cfg(target_arch = "wasm32")'.dependencies.web-sys]
 version = "0.3.4"
