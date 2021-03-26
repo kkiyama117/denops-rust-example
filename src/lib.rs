@@ -43,9 +43,10 @@ See each licence also. ([`LICENSE_MIT`](https://github.com/kkiyama117/denops-rus
 
 */
 use wasm_bindgen::prelude::*;
-use wasm_bindgen_futures::JsFuture;
+use wasm_bindgen_futures::{JsFuture, future_to_promise};
 use web_sys::{Response};
 use denops_rust::{console_log, Vim};
+use js_sys::Promise;
 
 #[wasm_bindgen(start)]
 pub fn initialize() -> Result<(), JsValue> {
@@ -74,6 +75,18 @@ pub async fn vim_test2(_vim: Vim) {
     let data = call_js_fetch("https://api.github.com/repos/kkiyama117/denops-rust-example").await.unwrap();
     console_log!("{:?}",data);
     console_log!("Call asynchronous function finished!");
+}
+
+pub async fn _vim_test3(_vim: Vim) -> Result<JsValue,JsValue> {
+    // Can call and wait deno's asynchronous function here!
+    let data = call_js_fetch("https://api.github.com/repos/kkiyama117/denops-rust-example").await?;
+    console_log!("{:?}",data);
+    Ok(JsValue::from_str("fetch finished"))
+}
+
+#[wasm_bindgen]
+pub async fn vim_test3(_vim: Vim) -> Promise {
+    future_to_promise(_vim_test3(_vim))
 }
 
 #[wasm_bindgen]
