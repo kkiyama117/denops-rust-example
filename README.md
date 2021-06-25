@@ -1,5 +1,7 @@
 # Denops Rust Example
 
+deprecated: See [`denops-rust/examples`](https://github.com/kkiyama117/denops-rust/tree/main/examples/denops-rust-example)
+
 ## About
 
 Read this [article](https://zenn.dev/kkiyama117/articles/2021-03-01-denops-rust) also.
